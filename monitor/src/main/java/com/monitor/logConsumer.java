@@ -1,3 +1,5 @@
+package main.java.com.monitor;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,14 +27,13 @@ public class logConsumer implements Runnable {
     Queue<Double> sharedQueue; 
     
     logConsumer(Queue<Double> metrics) throws IOException {
-    	try (InputStream props = Resources.getResource("consumer.props").openStream()) {
+            InputStream props = Resources.getResource("consumer.props").openStream(); 
             Properties properties = new Properties();
             properties.load(props);
             if (properties.getProperty("group.id") == null) {
                 properties.setProperty("group.id", "group-" + new Random().nextInt(100000));
             }
-            consumer = new KafkaConsumer<>(properties);
-        }
+            consumer = new KafkaConsumer<String, byte[]>(properties);
         consumer.subscribe(Arrays.asList("fast-messages"));
         sharedQueue = metrics;
     }
@@ -49,18 +50,21 @@ public class logConsumer implements Runnable {
                 System.out.printf("Got %d records after %d timeouts\n", records.count(), timeouts);
                 timeouts = 0;
             }
+            try {
             for (ConsumerRecord<String, byte[]> record : records) {
 					byte[] msg = null;
-					msg=record.value();
-					try {
-						HashMap<String, Double> tmp = util.byteToMap(msg);
-						sharedQueue.add(tmp.get("CPU"));
-						
-					} catch (ClassNotFoundException | IOException e) {
+			msg=record.value();
+			HashMap<String, Double> tmp = util.byteToMap(msg);
+			sharedQueue.add(tmp.get("CPU"));
+					
+			}
+             } catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}           
-            }
+          catch(ClassNotFoundException e) {
+              e.printStackTrace();  
 	  }
-	}   
+	}
+   }   
 }

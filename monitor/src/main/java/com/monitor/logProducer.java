@@ -1,3 +1,4 @@
+package main.java.com.monitor;
 
 import java.io.InputStream;
 import java.util.Date;
@@ -21,11 +22,11 @@ public class logProducer  implements Runnable{
     SystemMonitor tracker = null;
 	
 	public logProducer() throws IOException {
-		try (InputStream props = Resources.getResource("producer.props").openStream()) {
+            InputStream props = Resources.getResource("producer.props").openStream();
             Properties properties = new Properties();
             properties.load(props);
-            producer = new KafkaProducer<>(properties);
-        }
+            producer = new KafkaProducer<String, byte[]>(properties);
+        
 		tracker = new SystemMonitor();
 	}
 

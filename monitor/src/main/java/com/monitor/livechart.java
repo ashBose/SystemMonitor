@@ -1,3 +1,5 @@
+package main.java.com.monitor;
+
 import java.util.Queue;
 import java.util.Random;
 import javax.swing.JFrame;

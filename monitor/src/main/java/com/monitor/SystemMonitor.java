@@ -1,3 +1,5 @@
+package main.java.com.monitor;
+
 import java.util.*;
 
 import org.hyperic.sigar.CpuPerc;
@@ -15,7 +17,7 @@ public class SystemMonitor {
 	    Mem mem = null;
 	    CpuPerc cpuperc = null;
 	    FileSystemUsage filesystemusage = null;
-	    HashMap<String, Double> data = new HashMap<>();
+	    HashMap<String, Double> data = new HashMap<String, Double>();
 	    try {
 	        mem = sigar.getMem();
 	        cpuperc = sigar.getCpuPerc();
