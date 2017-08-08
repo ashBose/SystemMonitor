@@ -13,5 +13,5 @@ RUN \
 RUN apt-get install -y  openjdk-7-jdk
 RUN apt-get install -y maven
 
-COPY monitor/ .
+COPY SystemMonitor/ .
 mvn clean compile exec:java -Dexec.mainClass="main.java.com.monitor.controller"
