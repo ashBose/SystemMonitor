@@ -13,6 +13,8 @@ RUN \
 RUN apt-get install -y  openjdk-7-jdk
 RUN apt-get install -y maven
 
+ENV JAVA_HOME=/lib/jvm/java-1.7.0-openjdk
+
 COPY SystemMonitor/ .
 COPY entrypoint.sh /
 
