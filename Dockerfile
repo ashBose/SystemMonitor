@@ -14,4 +14,7 @@ RUN apt-get install -y  openjdk-7-jdk
 RUN apt-get install -y maven
 
 COPY SystemMonitor/ .
-#mvn clean compile exec:java -Dexec.mainClass="main.java.com.monitor.controller"
+COPY entrypoint.sh /
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["produce"]
