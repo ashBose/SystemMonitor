@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-[[ "$1" == "subscribe" ]] && {
+[[ "$1" == "produce" ]] && {
 
     cd /SystemMonitor
     mvn clean compile exec:java -Dexec.mainClass="main.java.com.monitor.controller"
