@@ -1,4 +1,4 @@
-package main.java.com.monitor;
+package com.monitor;
 
 import java.io.InputStream;
 import java.util.Date;
@@ -20,8 +20,12 @@ public class logProducer  implements Runnable{
 	KafkaProducer<String, byte[]> producer;
     Random rnd = new Random();
     SystemMonitor tracker = null;
+    String logType;
+    int timeToSleep;
 	
-	public logProducer() throws IOException {
+	public logProducer(String logType,int timeToSleep) throws IOException {
+	        this.logType = logType;
+	        this.timeToSleep = timeToSleep;
             InputStream props = Resources.getResource("producer.props").openStream();
             Properties properties = new Properties();
             properties.load(props);
@@ -32,11 +36,11 @@ public class logProducer  implements Runnable{
 
 	public void run() {
 		try {
-            for (int i = 0; i < 1000; i++) {
+            while(true) {
                 // send lots of messages
-            	HashMap<String, Double> val = tracker.getSystemStatistics();
+            	HashMap<String, Object> val = tracker.getSystemStatistics("CPU");
                 producer.send(new ProducerRecord<String, byte[]>(
-                        "fast-messages",
+                        "fast-mesages",
                         util.mapToByte(val)));
                 
             	/*
@@ -44,7 +48,8 @@ public class logProducer  implements Runnable{
             	System.out.println(" now string");
             	System.out.println(util.mapToByte(val));
             	*/
-               Thread.sleep(1000);
+
+               Thread.sleep(timeToSleep);
                
             }
         } catch (Throwable throwable) {

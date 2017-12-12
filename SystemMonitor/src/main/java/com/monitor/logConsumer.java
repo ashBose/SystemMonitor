@@ -1,4 +1,4 @@
-package main.java.com.monitor;
+package com.monitor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,9 +24,11 @@ public class logConsumer implements Runnable {
     Histogram global = new Histogram(1, 10000000, 2);
     int timeouts = 0;
     KafkaConsumer<String, byte[]> consumer;
-    Queue<Double> sharedQueue; 
+    clientMonitor cm = null;
+
+    //Queue<Double> sharedQueue;
     
-    logConsumer(Queue<Double> metrics) throws IOException {
+    logConsumer() throws IOException {
             InputStream props = Resources.getResource("consumer.props").openStream(); 
             Properties properties = new Properties();
             properties.load(props);
@@ -34,13 +36,14 @@ public class logConsumer implements Runnable {
                 properties.setProperty("group.id", "group-" + new Random().nextInt(100000));
             }
             consumer = new KafkaConsumer<String, byte[]>(properties);
-        consumer.subscribe(Arrays.asList("fast-messages"));
-        sharedQueue = metrics;
+        consumer.subscribe(Arrays.asList("fast-mesages"));
+        cm = new clientMonitor();
+        cm.setUp();
     }
 
-	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+
 		while (true) {
             // read records with a short timeout. If we time out, we don't really care.
             ConsumerRecords<String, byte[]> records = consumer.poll(2000);
@@ -51,11 +54,11 @@ public class logConsumer implements Runnable {
                 timeouts = 0;
             }
             try {
-            for (ConsumerRecord<String, byte[]> record : records) {
-					byte[] msg = null;
+            for (ConsumerRecord<String, byte[]> record : records) { byte[] msg = null;
 			msg=record.value();
-			HashMap<String, Double> tmp = util.byteToMap(msg);
-			sharedQueue.add(tmp.get("CPU"));
+			HashMap<String, Object> tmp = util.byteToMap(msg);
+            //System.out.println(tmp);
+			cm.insertData(tmp, tmp.get("type").toString());
 					
 			}
              } catch (IOException e) {

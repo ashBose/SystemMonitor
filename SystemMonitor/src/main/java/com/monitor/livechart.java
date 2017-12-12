@@ -1,4 +1,4 @@
-package main.java.com.monitor;
+package com.monitor;
 
 import java.util.Queue;
 import java.util.Random;
@@ -17,7 +17,6 @@ public class livechart  implements Runnable {
     Queue<Double> sharedQueue;
     
    public livechart(Queue<Double> metrics) {
-        
 
         TimeSeriesCollection dataset = new TimeSeriesCollection(ts);
         JFreeChart chart = ChartFactory.createTimeSeriesChart(

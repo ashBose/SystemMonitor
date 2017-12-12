@@ -1,4 +1,4 @@
-package main.java.com.monitor;
+package com.monitor;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 public class util {
 
-	public static byte[]  mapToByte(HashMap<String, Double> val) throws IOException {
+	public static byte[]  mapToByte(HashMap<String, Object> val) throws IOException {
 		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
 	    ObjectOutputStream out = new ObjectOutputStream(byteOut);
 	    out.writeObject(val);
@@ -16,10 +16,10 @@ public class util {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static HashMap<String, Double> byteToMap(byte[] val) throws IOException, ClassNotFoundException {
+	public static HashMap<String, Object> byteToMap(byte[] val) throws IOException, ClassNotFoundException {
 		ByteArrayInputStream bis  = new ByteArrayInputStream(val);
 		ObjectInputStream ois = new ObjectInputStream(bis);
-		return (HashMap<String,Double>) ois.readObject();
+		return (HashMap<String,Object>) ois.readObject();
 	}
 	
 }

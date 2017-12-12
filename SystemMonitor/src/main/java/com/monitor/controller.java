@@ -1,4 +1,4 @@
-package main.java.com.monitor;
+package com.monitor;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -9,24 +9,26 @@ public class controller {
 
 	/**
 	 * @param args
-	 * @throws IOException 
+	 * @throws IOException
+	 *
 	 */
+
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 
-		logProducer lp = new logProducer();
+		logProducer lp = new logProducer("CPU",1000);
 		Thread thread = new Thread(lp);
 		thread.start();
-		
-		Queue<Double> metrics = new LinkedList();
-		
-		logConsumer lc = new logConsumer(metrics);
+
+		logConsumer lc = new logConsumer();
 		Thread thread1 = new Thread(lc);
 		thread1.start();
 		
-		livechart graph = new livechart(metrics);
-		Thread thr = new Thread(graph);
-		thr.start();
+		//livechart graph = new livechart(metrics);
+		//Thread thr = new Thread(graph);
+		//thr.start();
+
+
 	}
 
 }
