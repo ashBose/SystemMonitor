@@ -38,7 +38,7 @@ public class logProducer  implements Runnable{
 		try {
             while(true) {
                 // send lots of messages
-            	HashMap<String, Object> val = tracker.getSystemStatistics("CPU");
+            	HashMap<String, Object> val = tracker.getSystemStatistics(logType);
                 producer.send(new ProducerRecord<String, byte[]>(
                         "fast-mesages",
                         util.mapToByte(val)));

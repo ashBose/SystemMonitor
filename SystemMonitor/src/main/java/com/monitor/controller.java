@@ -1,9 +1,6 @@
 package com.monitor;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
-
 
 public class controller {
 
@@ -14,11 +11,20 @@ public class controller {
 	 */
 
 	public static void main(String[] args) throws IOException {
+
 		// TODO Auto-generated method stub
 
-		logProducer lp = new logProducer("CPU",1000);
+		if (args.length == 0)
+		{
+			System.out.println("There were no commandline arguments passed!");
+			return;
+		}
+		String logtype= args[0];
+		int timetosleep = Integer.parseInt(args[1]);
+
+		logProducer lp = new logProducer(logtype,timetosleep);
 		Thread thread = new Thread(lp);
-		thread.start();
+		//thread.start();
 
 		logConsumer lc = new logConsumer();
 		Thread thread1 = new Thread(lc);

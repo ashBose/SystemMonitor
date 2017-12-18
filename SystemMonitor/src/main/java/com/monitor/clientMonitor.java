@@ -49,7 +49,7 @@ public class clientMonitor {
     public void setUp() throws UnknownHostException
     {
         connect();
-        createIndex();
+        //createIndex();
     }
 
     public void createIndex() {
@@ -75,7 +75,8 @@ public class clientMonitor {
                 .setSource(jsonDocument
                 )
                 .get();
-        System.out.println(" DONE");
+
+        System.out.println(jsonDocument);
     }
 
     /*
