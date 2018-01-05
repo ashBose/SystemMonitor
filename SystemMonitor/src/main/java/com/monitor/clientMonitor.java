@@ -1,15 +1,12 @@
-
 package com.monitor;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
-import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
@@ -17,8 +14,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
-
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 public class clientMonitor {
 
@@ -75,17 +70,6 @@ public class clientMonitor {
                 .setSource(jsonDocument
                 )
                 .get();
-
-        System.out.println(jsonDocument);
     }
-
-    /*
-    public static void main(String[] args) throws Exception {
-        System.out.println(" started");
-        clientMonitor cm = new clientMonitor();
-        cm.setUp();
-        //cm.insertData();
-    }*/
-
 
 }

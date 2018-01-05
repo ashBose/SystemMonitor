@@ -1,7 +1,5 @@
 package com.monitor;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Resources;
 import org.HdrHistogram.Histogram;
@@ -14,7 +12,6 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.Queue;
 import java.util.Random;
 
 
@@ -26,8 +23,6 @@ public class logConsumer implements Runnable {
     KafkaConsumer<String, byte[]> consumer;
     clientMonitor cm = null;
 
-    //Queue<Double> sharedQueue;
-    
     logConsumer() throws IOException {
             InputStream props = Resources.getResource("consumer.props").openStream(); 
             Properties properties = new Properties();
@@ -42,8 +37,6 @@ public class logConsumer implements Runnable {
     }
 
 	public void run() {
-		// TODO Auto-generated method stub
-
 		while (true) {
             // read records with a short timeout. If we time out, we don't really care.
             ConsumerRecords<String, byte[]> records = consumer.poll(2000);
@@ -54,20 +47,18 @@ public class logConsumer implements Runnable {
                 timeouts = 0;
             }
             try {
-            for (ConsumerRecord<String, byte[]> record : records) { byte[] msg = null;
-			msg=record.value();
-			HashMap<String, Object> tmp = util.byteToMap(msg);
-            //System.out.println(tmp);
-			cm.insertData(tmp, tmp.get("type").toString());
-					
-			}
-             } catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}           
+            for (ConsumerRecord<String, byte[]> record : records) {
+                byte[] msg = null;
+                msg=record.value();
+                HashMap<String, Object> tmp = util.byteToMap(msg);
+                cm.insertData(tmp, tmp.get("type").toString());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
           catch(ClassNotFoundException e) {
               e.printStackTrace();  
-	  }
+	    }
 	}
    }   
 }

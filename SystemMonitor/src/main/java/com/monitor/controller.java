@@ -4,15 +4,7 @@ import java.io.IOException;
 
 public class controller {
 
-	/**
-	 * @param args
-	 * @throws IOException
-	 *
-	 */
-
 	public static void main(String[] args) throws IOException {
-
-		// TODO Auto-generated method stub
 
 		if (args.length == 0)
 		{
@@ -29,11 +21,6 @@ public class controller {
 		logConsumer lc = new logConsumer();
 		Thread thread1 = new Thread(lc);
 		thread1.start();
-		
-		//livechart graph = new livechart(metrics);
-		//Thread thr = new Thread(graph);
-		//thr.start();
-
 
 	}
 
